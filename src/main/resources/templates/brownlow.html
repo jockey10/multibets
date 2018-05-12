@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multibets Calculator</title>
+    <link type="text/css" href="/dashboard.css" rel="stylesheet">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.flash', function() {
+                $(this).remove();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+           var listResults = [];
+
+           //let's hide the table until there's some data
+            $('#resultstable').hide();
+
+            $(document).on('click','#addbtn', function() {
+               var  brownlowresult = {
+                   player1: $('#player1').val(),
+                   player2: $('#player2').val(),
+                   player3: $('#player3').val(),
+               }
+
+               listResults.push(brownlowresult);
+               // now re-render the table by appending a new row
+                var brownlowRow = '<tr>' +
+                    '<td>' + brownlowresult.player1 + '</td>' +
+                    '<td>' + brownlowresult.player2 + '</td>' +
+                    '<td>' + brownlowresult.player3 + '</td>' +
+                    '<td class="text-center">' +
+                    '<a>' +
+                    '<input type="hidden" value=' + (listResults.length - 1) + '>' +
+                    '<span class="glyphicon glyphicon-remove"></span>' +
+                    '</a>' +
+                    '</td>' +
+                        '</tr>';
+
+                $('#resultstable').append(brownlowRow);
+                $('#resultstable').show();
+
+                $('#main-form').trigger("reset");
+
+            });
+
+            $(document).on("click","a",function() {
+                var gameId = $(this).parent().find('input').val();
+                listResults.splice(gameId,1);
+                if (listResults.length == 0) {
+                    $('#resultstable').hide();
+                }
+                else {
+                    redrawTable(listResults);
+                }
+            });
+
+            $(document).on('click','#genbtn', function() {
+                var url = window.location.href;
+
+               // POST the variables to the API endpoint
+               $.ajax({
+                   type: "POST",
+                   contentType: "application/json",
+                   accept: 'text/plain',
+                   url:  url.replace('brownlow','/') + 'api/brownlowresult/save',
+                   data: JSON.stringify(listResults),
+                   headers: {
+                       "Combo-Description":$('#desc').val(),
+                   },
+                   dataType: 'text',
+                   success : function(result) {
+                       $('#resultstable tbody').empty();
+                       $('#resultstable').hide();
+
+                       // reset the table list
+                       listResults = [];
+                       console.log("SUCCESS: ", JSON.stringify(listResults));
+                   },
+                   error : function(e) {
+                       alert("Error!");
+                       console.log("ERROR: ", e);
+                   }
+               });
+            });
+
+        });
+        function redrawTable(results) {
+            $('#resultstable tbody > tr').remove();
+
+            for (var i=0; i< results.length; i++) {
+
+                var brownlowRow = '<tr>' +
+                    '<td>' + results[i].player1 + '</td>' +
+                    '<td>' + results[i].player2 + '</td>' +
+                    '<td>' + results[i].player3 + '</td>' +
+                    '<td class="text-center">' +
+                    '<a>' +
+                    '<input type="hidden" value=' + i + '>' +
+                    '<span class="glyphicon glyphicon-remove"></span>' +
+                    '</a>' +
+                    '</td>' +
+                    '</tr>';
+
+                $('#resultstable').append(brownlowRow);
+            }
+        };
+    </script>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container">
+        <div class="md-col-12">
+            <a href="brownlowcombos">View all Brownlow Combos</a>
+            <form id="main-form">
+                <div class="row game-form buffers">
+                    <div class="col-md-6" style="">
+                        <!-- Prepended checkbox -->
+                        <label class="col-md-4 control-label" for="player1">Player 1</label>
+                        <input id="player1" name="margin1" class="form-control" placeholder="leave blank to exclude" type="text">
+
+                        <!-- Prepended checkbox -->
+                        <label class="col-md-4 control-label" for="player2">Player 2</label>
+                        <input id="player2" name="margin2" class="form-control" placeholder="leave blank to exclude" type="text">
+
+                        <label class="col-md-4 control-label" for="player3">Player 3</label>
+                        <input id="player3" name="player3" class="form-control" placeholder="leave blank to exclude" type="text">
+                    </div>
+                </div>
+            </form>
+            <div class="form-inline">
+                <button type="button" id="addbtn" name="addbtn" class="btn btn-primary">Add Players</button>
+                <button type="buttpn" id="genbtn" name="genbtn" class="btn btn-success">Generate Combos</button>
+                <input id="desc" name="desc" class="form-control" placeholder="description" type="text">
+            </div>
+            <div id="resultsdiv">
+                <table id="resultstable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                            <th>Player 3</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

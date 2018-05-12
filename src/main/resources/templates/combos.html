@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multibets Calculator</title>
+    <link type="text/css" href="/dashboard.css" rel="stylesheet">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.flash', function() {
+                $(this).remove();
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container">
+        <div class="md-col-12">
+            <table class="table table-over">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>UUID</th>
+                        <th>Description</th>
+                        <!--th>Number of combos placeholder</th-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--/*@thymesvar id=combos type=MultiGroup"*/-->
+                    <th:block th:each="combo : ${combos}">
+                        <tr>
+                            <td th:text="| ${combo.getDate()}|"/>
+                            <td>
+                                <a th:href="@{/combos/{uuid}(uuid=${combo.getUUID()})}"><span th:text="| ${combo.getUUID()}"></span></a>
+                            </td>
+                            <td th:text="| ${combo.getDescription()}|"/>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

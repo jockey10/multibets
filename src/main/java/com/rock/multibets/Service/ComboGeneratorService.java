@@ -3,16 +3,11 @@ package com.rock.multibets.Service;
 import com.rock.multibets.domain.*;
 import groovy.util.GroovyCollections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 
 @Service("comboService")
@@ -89,7 +84,7 @@ public class ComboGeneratorService {
         return multiGroup;
     }
 
-    @Async
+
     public BrownlowGroup generateBrownlowCombos(List<BrownlowFormResult> formResults, String desc) {
         random = new Random();
 

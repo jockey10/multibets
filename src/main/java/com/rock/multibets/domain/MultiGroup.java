@@ -7,9 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by sboulden on 5/5/18.
- */
+
 @Entity
 public class MultiGroup implements Serializable{
 

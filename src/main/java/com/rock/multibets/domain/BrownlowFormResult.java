@@ -53,7 +53,7 @@ public class BrownlowFormResult {
     }
 
     public void generateComboStrings() {
-        comboStrings = new ArrayList<String>();
+        comboStrings = new ArrayList<>();
         if (StringUtils.isNotEmpty(this.player1))
             comboStrings.add(this.player1 + "\n");
         if (StringUtils.isNotEmpty(this.player2))
@@ -62,8 +62,12 @@ public class BrownlowFormResult {
             comboStrings.add(this.player3 + "\n");
     }
 
-    public String randomPlayerString() {
-        return comboStrings.get(random.nextInt(comboStrings.size()));
+    public int getComboSize() {
+        return comboStrings.size();
+    }
+
+    public List<String> getComboStrings() {
+        return comboStrings;
     }
 
 }

@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by sboulden on 5/5/18.
- */
+
 public class MultiFormResult {
     private String team1;
     private String team2;
@@ -87,7 +85,7 @@ public class MultiFormResult {
     }
 
     public void generateComboStrings() {
-        comboStrings = new ArrayList<String>();
+        comboStrings = new ArrayList<>();
         if (StringUtils.isNotEmpty(this.team1option1))
              comboStrings.add(this.team1 + " " + team1option1 + "\n");
         if(StringUtils.isNotEmpty(this.team1option2))
@@ -98,8 +96,12 @@ public class MultiFormResult {
             comboStrings.add(this.team2 + " " + team2option2 + "\n");
     }
 
-    public String randomComboString() {
-        return comboStrings.get(random.nextInt(comboStrings.size()));
+    public int getComboSize() {
+        return comboStrings.size();
+    }
+
+    public List<String> getComboStrings() {
+        return comboStrings;
     }
 
     public String toString() {

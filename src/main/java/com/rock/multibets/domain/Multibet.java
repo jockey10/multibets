@@ -30,6 +30,23 @@ public class Multibet implements Serializable {
         bets.add(bet);
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public LinkedList<String> getBets() {
+        return bets;
+    }
+
+    public void setBets(LinkedList<String> bets) {
+        this.bets = bets;
+    }
+
+    @Override
     public String toString() {
         String ret = "";
         for(String s : bets) {

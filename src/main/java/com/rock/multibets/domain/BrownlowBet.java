@@ -35,4 +35,20 @@ public class BrownlowBet implements Serializable {
         }
         return ret;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public LinkedList<String> getBets() {
+        return bets;
+    }
+
+    public void setBets(LinkedList<String> bets) {
+        this.bets = bets;
+    }
 }

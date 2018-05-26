@@ -26,7 +26,7 @@
                         <th>Date</th>
                         <th>UUID</th>
                         <th>Description</th>
-                        <!--th>Number of combos placeholder</th-->
+                        <th class="text-center">Download</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +38,11 @@
                                 <a th:href="@{/brownlowcombos/{uuid}(uuid=${combo.getUUID()})}"><span th:text="| ${combo.getUUID()}"></span></a>
                             </td>
                             <td th:text="| ${combo.getDescription()}|"/>
+                            <td class="text-center">
+                                <a th:href="@{/api/brownlowresult/{uuid}/download(uuid=${combo.getUUID()})}">
+                                    <span class="glyphicon glyphicon-download"></span>
+                                </a>
+                            </td>
                         </tr>
                     </th:block>
                 </tbody>

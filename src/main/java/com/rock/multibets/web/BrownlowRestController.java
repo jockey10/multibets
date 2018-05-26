@@ -1,14 +1,18 @@
 package com.rock.multibets.web;
 
+import com.rock.multibets.Service.BrownlowGroupService;
 import com.rock.multibets.Service.ComboGeneratorService;
-import com.rock.multibets.domain.BrownlowFormResult;
-import com.rock.multibets.domain.BrownlowGroup;
+import com.rock.multibets.domain.*;
+import com.rock.multibets.util.CSVUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 
 
 @RestController
@@ -19,6 +23,9 @@ public class BrownlowRestController {
 
     @Autowired
     ComboGeneratorService comboService;
+
+    @Autowired
+    BrownlowGroupService brownlowGroupService;
 
     @PostMapping(value="/save")
     @Async
@@ -33,5 +40,15 @@ public class BrownlowRestController {
         BrownlowGroup newgroup = comboService.generateBrownlowCombos(resultList,desc);
     }
 
-    //TODO Create a request mapping to update the max combos
+    @GetMapping(value="/{uuid}/download", produces = "text/csv")
+    public void downloadResults(HttpServletResponse response, @PathVariable UUID uuid) {
+        try {
+            BrownlowGroup group = brownlowGroupService.getBrownlowGroup(uuid);
+            List<BrownlowBet> bets = group.getBrownlowbets();
+            response.setHeader("Content-Disposition", "attachment; filename="+uuid+".csv");
+            CSVUtilities.writeBrownlowBetsToCSV(response.getWriter(), bets);
+        } catch (IOException ex) {
+            System.out.println("Error occurred downloading data");
+        }
+    }
 }

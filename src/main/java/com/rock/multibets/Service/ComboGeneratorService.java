@@ -52,30 +52,23 @@ public class ComboGeneratorService {
         //Create a list of lists
         ArrayList<List<String>> lists = new ArrayList<>();
 
+
         // firstly, we generate combo strings for each
         // game
-        int maxsize=1;
         for(MultiFormResult m : formResults) {
             m.generateComboStrings();
             lists.add(m.getComboStrings());
-            maxsize *= m.getComboSize();
         }
-
-        //test if the size is less than 200, otherwise use that
-        maxsize = maxsize < 200 ? maxsize : 200;
 
         // now, use Groovy to generate all combinations
         List combos = GroovyCollections.combinations((Iterable)lists);
 
-        for(int i=0; i<maxsize; i++) {
+        for(int i=0; i<combos.size(); i++) {
             Multibet multi = new Multibet(multiGroup);
-            int idx = random.nextInt(combos.size());
-            ArrayList<String> randomcombos = (ArrayList<String>)combos.get(idx);
-            for(String s : randomcombos) {
+            ArrayList<String> stringcombos = (ArrayList<String>)combos.get(i);
+            for(String s : stringcombos) {
                 multi.addBet(s);
             }
-            //ensure we can't select this combo again
-            combos.remove(idx);
 
             //add to the database and multigroup
             multibetService.addMultibet(multi);
@@ -95,29 +88,20 @@ public class ComboGeneratorService {
         //Create a list of lists
         ArrayList<List<String>> lists = new ArrayList<>();
 
-        // firstly, we generate combo strings for each
-        // game
-        int maxsize = 1;
         for(BrownlowFormResult b : formResults) {
             b.generateComboStrings();
             lists.add(b.getComboStrings());
-            maxsize *= b.getComboSize();
         }
-
-        //test if the size is less than 200, otherwise use that
-        maxsize = maxsize < 200 ? maxsize : 200;
 
         // now, use Groovy to generate all combinations
         List combos = GroovyCollections.combinations((Iterable)lists);
-        for(int i=0; i<maxsize; i++) {
+
+        for(int i=0; i<combos.size(); i++) {
             BrownlowBet bet = new BrownlowBet(brownlowGroup);
-            int idx = random.nextInt(combos.size());
-            ArrayList<String> randomcombos = (ArrayList<String>)combos.get(idx);
-            for(String s : randomcombos) {
+            ArrayList<String> stringcombos = (ArrayList<String>)combos.get(i);
+            for(String s : stringcombos) {
                 bet.addBet(s);
             }
-            //ensure we can't select this combo again
-            combos.remove(idx);
 
             //add to the database and multigroup
             brownlowBetService.addBrownlowBet(bet);

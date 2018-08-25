@@ -30,14 +30,13 @@ public class BrownlowRestController {
     @PostMapping(value="/save")
     @Async
     public void postMultiForm(@RequestBody List<BrownlowFormResult> multiresults,
-                                @RequestHeader(value="Combo-Description") String desc) {
+                              @RequestHeader(value="Combo-Description") String desc) {
         resultList = new ArrayList<>();
         resultList.addAll(multiresults);
 
-        //get the description from the headers
         // this is where we create the logic to create combos from the objects returned, and
         // convert them into database objects
-        BrownlowGroup newgroup = comboService.generateBrownlowCombos(resultList,desc);
+        comboService.generateBrownlowCombos(resultList,desc);
     }
 
     @GetMapping(value="/{uuid}/download", produces = "text/csv")

@@ -27,18 +27,13 @@ public class MultibetsController {
         return "home";
     }
 
-    @RequestMapping(value="/combos")
-    public String combos(Model model) {
+    @RequestMapping(value="/multi")
+    public String multi() { return "multi"; }
+
+    @RequestMapping(value="/multicombos")
+    public String multicombos(Model model) {
         ArrayList<MultiGroup> combos = (ArrayList<MultiGroup>)multigroupService.findAll();
         model.addAttribute("combos",combos);
-        return "combos";
-    }
-
-    @RequestMapping(value="/combos/{uuid}",method= RequestMethod.GET)
-    public String combo(Model model, @PathVariable UUID uuid) {
-        MultiGroup multiGroup = multigroupService.getMultiGroup(uuid);
-        List<Multibet> multibets = multiGroup.getMultibets();
-        model.addAttribute("multibets",multibets);
-        return "bets";
+        return "multicombos";
     }
 }

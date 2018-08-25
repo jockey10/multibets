@@ -35,12 +35,4 @@ public class BrownlowController {
         model.addAttribute("combos",combos);
         return "brownlowcombos";
     }
-
-    @RequestMapping(value="/brownlowcombos/{uuid}",method= RequestMethod.GET)
-    public String combo(Model model, @PathVariable UUID uuid) {
-        BrownlowGroup brownlowGroup = brownlowGroupService.getBrownlowGroup(uuid);
-        List<BrownlowBet> brownlowBets = brownlowGroup.getBrownlowbets();
-        model.addAttribute("multibets",brownlowBets);
-        return "bets";
-    }
 }

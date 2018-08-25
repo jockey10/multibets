@@ -24,8 +24,8 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>UUID</th>
                         <th>Description</th>
+                        <th>Combos</th>
                         <th class="text-center">Download</th>
                     </tr>
                 </thead>
@@ -34,12 +34,10 @@
                     <th:block th:each="combo : ${combos}">
                         <tr>
                             <td th:text="| ${combo.getDate()}|"/>
-                            <td>
-                                <a th:href="@{/combos/{uuid}(uuid=${combo.getUUID()})}"><span th:text="| ${combo.getUUID()}"></span></a>
-                            </td>
                             <td th:text="| ${combo.getDescription()}|"/>
+                            <td th:text="| ${combo.getNumBets()}|"/>
                             <td class="text-center">
-                                <a th:href="@{/api/multiformresult/{uuid}/download(uuid=${combo.getUUID()})}">
+                                <a th:href="@{/api/multiresult/{uuid}/download(uuid=${combo.getUUID()})}">
                                     <span class="glyphicon glyphicon-download"></span>
                                 </a>
                             </td>

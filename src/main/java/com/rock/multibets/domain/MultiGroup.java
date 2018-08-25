@@ -46,6 +46,8 @@ public class MultiGroup implements Serializable{
         return this.multibets;
     }
 
+    public Integer getNumBets() { return this.multibets.size(); }
+
     public void addMultiBet(Multibet multi) {
         this.multibets.add(multi);
     }

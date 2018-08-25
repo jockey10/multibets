@@ -45,6 +45,8 @@
                 $('#resultstable').append(brownlowRow);
                 $('#resultstable').show();
 
+                setNumCombos(listResults);
+
                 $('#main-form').trigger("reset");
 
             });
@@ -52,11 +54,11 @@
             $(document).on("click","a",function() {
                 var gameId = $(this).parent().find('input').val();
                 listResults.splice(gameId,1);
+                redrawTable(listResults);
+                setNumCombos(listResults);
                 if (listResults.length == 0) {
                     $('#resultstable').hide();
-                }
-                else {
-                    redrawTable(listResults);
+                    $('#numresults').val("num combos")
                 }
             });
 
@@ -110,6 +112,23 @@
                 $('#resultstable').append(brownlowRow);
             }
         };
+        function setNumCombos(results) {
+            //iterate over the listResults and count how many combos
+            var subcount = 1;
+            for(var i=0; i<results.length; i++) {
+                games = 0;
+                var result = results[i];
+                if(result.player1 != "")
+                    games++;
+                if(result.player2 != "")
+                    games++;
+                if(result.player3 != "")
+                    games++;
+                subcount *= games;
+            }
+
+            $('#numresults').val(subcount);
+        };
     </script>
 </head>
 <body>
@@ -136,8 +155,9 @@
             </form>
             <div class="form-inline">
                 <button type="button" id="addbtn" name="addbtn" class="btn btn-primary">Add Players</button>
-                <button type="buttpn" id="genbtn" name="genbtn" class="btn btn-success">Generate Combos</button>
+                <button type="button" id="genbtn" name="genbtn" class="btn btn-success">Generate Combos</button>
                 <input id="desc" name="desc" class="form-control" placeholder="description" type="text">
+                <input id="numresults" class="form-control" placeholder="number of combos" type="text" readonly>
             </div>
             <div id="resultsdiv">
                 <table id="resultstable" class="table table-hover">

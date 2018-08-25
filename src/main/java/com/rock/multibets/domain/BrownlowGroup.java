@@ -48,6 +48,8 @@ public class BrownlowGroup implements Serializable{
         return this.brownlowbets;
     }
 
+    public Integer getNumBets() { return this.brownlowbets.size(); }
+
     public void addBrownlowBet(BrownlowBet bet) {
         this.brownlowbets.add(bet);
     }

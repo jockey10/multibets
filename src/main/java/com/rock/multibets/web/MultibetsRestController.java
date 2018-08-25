@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 @RestController
-@RequestMapping("/api/multiformresult")
+@RequestMapping("/api/multiresult")
 public class MultibetsRestController {
     List<MultiFormResult> resultList = new ArrayList<>();
     //ComboGeneratorService combos = new ComboGeneratorService();
@@ -42,11 +42,9 @@ public class MultibetsRestController {
         resultList = new ArrayList<>();
         resultList.addAll(multiresults);
 
-        //get the description from the headers
         // this is where we create the logic to create combos from the objects returned, and
         // convert them into database objects
-
-        MultiGroup newgroup = comboService.generateCombos(resultList,desc);
+        comboService.generateCombos(resultList,desc);
     }
 
     @GetMapping(value="/{uuid}/download", produces = "text/csv")
